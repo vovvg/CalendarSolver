@@ -1,11 +1,11 @@
-package main
+package solver
 
 type figure struct {
 	placed   bool
 	position [][][]string
 }
 
-func initField() [][]string {
+func InitField() [][]string {
 	return [][]string{
 		{"jan", "feb", "mar", "apr", "may", "jun", "[x]"},
 		{"jul", "aug", "sep", "oct", "nov", "dec", "[x]"},
@@ -16,7 +16,7 @@ func initField() [][]string {
 		{"[29]", "[30]", "[31]", "[x]", "[x]", "[x]", "[x]"}}
 }
 
-func initFigures() []*figure {
+func InitFigures() []*figure {
 
 	figure1 := &figure{
 		placed: false,

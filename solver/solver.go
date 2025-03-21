@@ -1,8 +1,8 @@
-package main
+package solver
 
 import "strings"
 
-func solvePuzzle(field [][]string, figures []*figure, idx int, month string, date string) ([][]string, bool) {
+func SolvePuzzle(field [][]string, figures []*figure, idx int, month string, date string) ([][]string, bool) {
 	if idx >= len(figures) {
 		return field, true
 	}
@@ -16,7 +16,7 @@ func solvePuzzle(field [][]string, figures []*figure, idx int, month string, dat
 					insertPattern(field, figures[idx].position[pos], row, col)
 					figures[idx].placed = true
 
-					if newField, success := solvePuzzle(field, figures, idx+1, month, date); success {
+					if newField, success := SolvePuzzle(field, figures, idx+1, month, date); success {
 						return newField, true
 					}
 
