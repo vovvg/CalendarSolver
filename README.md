@@ -3,4 +3,7 @@
 Caldendar puzzle solver
 
 ## calendar
-![Alt text](calendar.png)
+![Alt text](img/calendar.png)
+
+## puzzle
+![Alt text](img/puzzle.png)
