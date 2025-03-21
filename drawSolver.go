@@ -23,7 +23,8 @@ const (
 
 var img = image.NewRGBA(image.Rect(0, 0, imgSize, imgSize))
 
-func Draw(field [][]string, font font.Face) {
+func Draw(field [][]string) {
+	customFont := loadFont()
 	x1 := 0
 	y1 := 0
 	x2 := cellSize
@@ -33,7 +34,7 @@ func Draw(field [][]string, font font.Face) {
 		for _, cell := range row {
 			drawRect(x1, y1, x2, y2, changeColor(cell))
 			if !strings.Contains(cell, "{") && !strings.Contains(cell, "[x]") {
-				addLabel(x1, y1, cell, font)
+				addLabel(x1, y1, cell, customFont)
 			}
 			x1 += cellSize
 			x2 += cellSize
@@ -55,30 +56,6 @@ func Draw(field [][]string, font font.Face) {
 	if err != nil {
 		panic(err)
 	}
-}
-
-func LoadFont() font.Face {
-
-	fontBytes, err := f.ReadFile("ShadeBlue-2OozX.ttf")
-	if err != nil {
-		log.Fatalf("failed to read font file: %v", err)
-	}
-
-	parsedFont, err := opentype.Parse(fontBytes)
-	if err != nil {
-		log.Fatalf("failed to parse font: %v", err)
-	}
-
-	myFont, err := opentype.NewFace(parsedFont, &opentype.FaceOptions{
-		Size:    50,
-		DPI:     80,
-		Hinting: font.HintingFull,
-	})
-	if err != nil {
-		log.Fatalf("failed to create font face: %v", err)
-	}
-
-	return myFont
 }
 
 func changeColor(cell string) color.Color {
@@ -130,4 +107,28 @@ func addLabel(x, y int, label string, customFont font.Face) {
 		Dot:  point,
 	}
 	d.DrawString(strings.Trim(label, "[]"))
+}
+
+func loadFont() font.Face {
+
+	fontBytes, err := f.ReadFile("ShadeBlue-2OozX.ttf")
+	if err != nil {
+		log.Fatalf("failed to read font file: %v", err)
+	}
+
+	parsedFont, err := opentype.Parse(fontBytes)
+	if err != nil {
+		log.Fatalf("failed to parse font: %v", err)
+	}
+
+	myFont, err := opentype.NewFace(parsedFont, &opentype.FaceOptions{
+		Size:    50,
+		DPI:     80,
+		Hinting: font.HintingFull,
+	})
+	if err != nil {
+		log.Fatalf("failed to create font face: %v", err)
+	}
+
+	return myFont
 }

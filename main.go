@@ -10,8 +10,6 @@ func main() {
 
 	figures := initFigures()
 
-	font := LoadFont()
-
 	var month, day string
 
 	fmt.Printf("Input mounth: ")
@@ -21,7 +19,7 @@ func main() {
 
 	newField, _ := solvePuzzle(field, figures, 0, month, "["+day+"]")
 
-	Draw(newField, font)
+	Draw(newField)
 
 	fmt.Println("Solved puzzle: ")
 	for _, row := range newField {
