@@ -7,7 +7,7 @@ import (
 	"golang.org/x/image/math/fixed"
 	"image"
 	"image/color"
-	"image/jpeg"
+	"image/png"
 	"log"
 	"os"
 	"strings"
@@ -35,7 +35,7 @@ func Draw(field [][]string) {
 			drawRect(x1, y1, x2, y2, changeColor(cell))
 			if !strings.Contains(cell, "{") && !strings.Contains(cell, "[x]") {
 				addLabel(x1, y1, cell, customFont)
-				drawBorder(x1, y1, x2-1, y2-1)
+				drawBorder(x1-1, y1-1, x2-1, y2-1)
 			}
 			x1 += cellSize
 			x2 += cellSize
@@ -47,13 +47,13 @@ func Draw(field [][]string) {
 
 	}
 
-	f, err := os.Create("draw.jpg") // Change extension to match format
+	f, err := os.Create("calendar.png") // Change extension to match format
 	if err != nil {
 		panic(err)
 	}
 	defer f.Close()
 
-	err = jpeg.Encode(f, img, nil)
+	err = png.Encode(f, img)
 	if err != nil {
 		panic(err)
 	}
