@@ -1,7 +1,7 @@
 package painter
 
 import (
-	"embed"
+	_ "embed"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
 	"golang.org/x/image/math/fixed"
@@ -14,7 +14,7 @@ import (
 )
 
 //go:embed ShadeBlue-2OozX.ttf
-var f embed.FS
+var fontBytes []byte
 
 const (
 	cellSize = 100
@@ -126,12 +126,6 @@ func addLabel(x, y int, label string, customFont font.Face) {
 }
 
 func loadFont() font.Face {
-
-	fontBytes, err := f.ReadFile("ShadeBlue-2OozX.ttf")
-	if err != nil {
-		log.Fatalf("failed to read font file: %v", err)
-	}
-
 	parsedFont, err := opentype.Parse(fontBytes)
 	if err != nil {
 		log.Fatalf("failed to parse font: %v", err)
