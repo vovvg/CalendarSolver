@@ -35,6 +35,7 @@ func Draw(field [][]string) {
 			drawRect(x1, y1, x2, y2, changeColor(cell))
 			if !strings.Contains(cell, "{") && !strings.Contains(cell, "[x]") {
 				addLabel(x1, y1, cell, customFont)
+				drawBorder(x1, y1, x2-1, y2-1)
 			}
 			x1 += cellSize
 			x2 += cellSize
@@ -55,6 +56,21 @@ func Draw(field [][]string) {
 	err = jpeg.Encode(f, img, nil)
 	if err != nil {
 		panic(err)
+	}
+}
+
+func drawBorder(x1 int, y1 int, x2 int, y2 int) {
+	for y := y1; y <= y2; y++ {
+		img.Set(x1, y, color.Black)
+	}
+	for y := y1; y <= y2; y++ {
+		img.Set(x2, y, color.Black)
+	}
+	for x := x1; x <= x2; x++ {
+		img.Set(x, y1, color.Black)
+	}
+	for x := x1; x <= x2; x++ {
+		img.Set(x, y2, color.Black)
 	}
 }
 
