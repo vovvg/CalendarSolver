@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
 	"golang.org/x/image/math/fixed"
@@ -11,6 +12,9 @@ import (
 	"os"
 	"strings"
 )
+
+//go:embed ShadeBlue-2OozX.ttf
+var f embed.FS
 
 const (
 	cellSize = 100
@@ -54,7 +58,8 @@ func Draw(field [][]string, font font.Face) {
 }
 
 func LoadFont() font.Face {
-	fontBytes, err := os.ReadFile("./ShadeBlue-2OozX.ttf")
+
+	fontBytes, err := f.ReadFile("ShadeBlue-2OozX.ttf")
 	if err != nil {
 		log.Fatalf("failed to read font file: %v", err)
 	}
@@ -65,8 +70,8 @@ func LoadFont() font.Face {
 	}
 
 	myFont, err := opentype.NewFace(parsedFont, &opentype.FaceOptions{
-		Size:    70,
-		DPI:     72,
+		Size:    50,
+		DPI:     80,
 		Hinting: font.HintingFull,
 	})
 	if err != nil {
@@ -79,34 +84,30 @@ func LoadFont() font.Face {
 func changeColor(cell string) color.Color {
 	switch cell {
 	case "{1}":
-		return color.RGBA{R: 255, A: 255}
+		return setColor(255, 0, 0) // RED
 	case "{2}":
-		return color.RGBA{B: 255, A: 255}
+		return setColor(0, 0, 255) // BLUE
 	case "{3}":
-		return color.RGBA{G: 255, A: 255}
+		return setColor(105, 215, 0) // ORANGE
 	case "{4}":
-		return color.RGBA{R: 255, G: 255, A: 255}
+		return setColor(255, 150, 230) //PINK
 	case "{5}":
-		return color.RGBA{R: 255, B: 255, A: 255}
+		return setColor(0, 115, 0) //DARK GREEN
 	case "{6}":
-		return color.RGBA{G: 255, B: 255, A: 255}
+		return setColor(0, 0, 110) // DEEP BLUE
 	case "{7}":
-		return color.RGBA{R: 255, G: 100, B: 200, A: 255}
+		return setColor(120, 0, 0) // DARK RED
 	case "{8}":
-		return color.RGBA{R: 10, G: 100, B: 255, A: 255}
+		return setColor(0, 255, 255) //CYAN
 	case "[x]":
-		return color.RGBA{R: 150, G: 70, A: 255}
+		return setColor(180, 130, 0) // BROWNY
 	default:
-		return color.White
+		return setColor(180, 130, 0) // lite BROWN
 	}
 }
 
-func fillImage(c color.Color) {
-	for y := 0; y < img.Bounds().Dy(); y++ {
-		for x := 0; x < img.Bounds().Dx(); x++ {
-			img.Set(x, y, c)
-		}
-	}
+func setColor(r uint8, g uint8, b uint8) color.Color {
+	return color.RGBA{R: r, G: g, B: b, A: 255}
 }
 
 func drawRect(x1, y1, x2, y2 int, col color.Color) {
@@ -119,7 +120,7 @@ func drawRect(x1, y1, x2, y2 int, col color.Color) {
 
 func addLabel(x, y int, label string, customFont font.Face) {
 	point := fixed.Point26_6{
-		X: fixed.I(x + 10),
+		X: fixed.I(x + 20),
 		Y: fixed.I(y + 75),
 	}
 	d := &font.Drawer{
