@@ -47,7 +47,7 @@ func Draw(field [][]string) {
 
 	}
 
-	f, err := os.Create("calendar.png") // Change extension to match format
+	f, err := os.Create("calendar_solved.png") // Change extension to match format
 	if err != nil {
 		panic(err)
 	}
