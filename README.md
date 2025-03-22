@@ -3,7 +3,7 @@
 Calendar puzzle solver
 
 ### Environment:
-RUN_MODE: tg,local <br/>
+RUN_MODE: tg/local <br/>
 TELEGRAM_APITOKEN: tg_bot_api_token
 
 ## calendar
