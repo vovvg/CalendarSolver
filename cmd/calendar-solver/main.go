@@ -3,27 +3,38 @@ package main
 import (
 	"calendar/painter"
 	"calendar/solver"
+	"calendar/tgbot"
 	"fmt"
-	"log"
+	_ "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"os"
 )
 
 func main() {
 
 	field := solver.InitField()
 
-	figures := solver.InitFigures()
-
 	var month, day string
 
-	fmt.Printf("Input mounth: ")
-	fmt.Scanf("%s", &month)
-	fmt.Printf("Input day: ")
-	fmt.Scanf("%s", &day)
+	flag := os.Getenv("RUN_MODE")
 
-	newField, _ := solver.SolvePuzzle(field, figures, 0, month, "["+day+"]")
+	if flag == "tg" {
+		tgbot.RunBot(field, month, day)
+	}
 
-	painter.Draw(newField)
+	if flag == "local" {
+		figures := solver.InitFigures()
 
-	log.Println("Solved")
+		fmt.Printf("Input mounth: ")
+		fmt.Scanf("%s", &month)
+		fmt.Printf("Input day: ")
+		fmt.Scanf("%s", &day)
+
+		newField, _ := solver.SolvePuzzle(field, figures, month, "["+day+"]")
+
+		painter.Draw(newField)
+
+		fmt.Println("Solved")
+
+	}
 
 }
