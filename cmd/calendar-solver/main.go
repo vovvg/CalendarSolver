@@ -15,13 +15,13 @@ func main() {
 
 	var month, day string
 
-	flag := os.Getenv("RUN_MODE")
+	mode := os.Getenv("RUN_MODE")
 
-	if flag == "tg" {
+	if mode == "tg" {
 		tgbot.RunBot(field, month, day)
 	}
 
-	if flag == "local" {
+	if mode == "local" {
 		figures := solver.InitFigures()
 
 		fmt.Printf("Input mounth: ")
