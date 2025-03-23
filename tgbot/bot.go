@@ -36,6 +36,15 @@ func RunBot(field [][]string, month string, day string) {
 
 		msgText := update.Message.Text
 
+		if msgText == "/start" {
+			msg.Text = "Выберите месяц:"
+			msg.ReplyMarkup = monthKeyboard
+			bot.Send(msg)
+			photoFile := tgbotapi.NewPhoto(update.Message.Chat.ID, tgbotapi.FilePath("img/calendar.png"))
+			bot.Send(photoFile)
+			continue
+		}
+
 		if slices.Contains(months, msgText) {
 			month = msgText
 			msg.Text = "Вы выбрали месяц: " + month + "\nТеперь выберите день:"
